@@ -24,3 +24,78 @@
     - O script deve conter - Data HORA + nome do serviço + Status + mensagem personalizada de ONLINE ou offline;
     - O script deve gerar 2 arquivos de saida: 1 para o serviço online e 1 para o serviço OFFLINE;
     - Execução automatizada do script a cada 5 minutos.
+
+
+-----------------------------------------------------------------------------
+
+
+## Instrução de criação e configuração da instância 
+
+### Gerar uma chave pública de acesso na AWS e anexá-la à uma nova instância EC2.
+- Iniciar a página da AWS
+- No console pesquisar pelo serviço EC2 
+- Entrar em "Key pairs" no menu lateral esquerdo.
+- Clicar em "Create key pair".
+- Inserir um nome para a chave e clicar em "Create key pair".
+- Salvar o arquivo .pem gerado.
+- Clicar em "Instances" no menu lateral esquerdo.
+- Clicar em "Launch Instance".
+- Adicionar as Tags da instância (Name, Project e CostCenter) em instancias, volumes e interface network.
+- Selecionar a imagem Amazon Linux 2 AMI (HVM).
+- Selecionar o tipo de instância t3.small.
+- Selecionar a chave gerada anteriormente.
+- Selecionar ou criar um security group.
+- Colocar 16 GB de armazenamento gp2 (SSD).
+- Clicar em "Launch Instance".
+
+
+### Alocar um endereço IP elástico à instância EC2.
+
+- Iniciar a página da AWS
+- No console pesquisar pelo serviço EC2 
+- Entrar em "Elastic IP" no menu lateral esquerdo.
+- Clicar em "Allocate Elastic IP address".
+- Selecionar o ip alocado e clicar em "Actions" -> "Associate Elastic IP address".
+- Selecionar a instância EC2 criada anteriormente e clicar em "Associate".
+
+### Configurar gateway de internet.
+
+- Iniciar a página da AWS
+- No console pesquisar pelo serviço VPC 
+- Entrar "Internet gateways" no menu lateral esquerdo.
+- Clicar em "Create internet gateway".
+- Definir um nome para o gateway e clicar em "Create internet gateway".
+- Selecionar o gateway criado e clicar em "Actions" -> "Attach to VPC".
+- Selecionar a VPC da instância EC2 criada anteriormente e clicar em "Attach".
+
+### Configurar rota de internet.
+
+- Iniciar a página da AWS
+- No console pesquisar pelo serviço VPC 
+- Entrar "Route tables" no menu lateral esquerdo.
+- Selecionar a tabela de rotas da VPC da instância EC2 criada anteriormente.
+- Clicar em "Actions" -> "Edit routes".
+- Clicar em "Add route".
+- Configurar desse jeito:
+    - Destination: 0.0.0.0/0
+    - Target: Selecionar o gateway de internet criado anteriormente
+- Clicar em "Save changes".
+
+### Configurar regras de segurança.
+
+
+- Iniciar a página da AWS
+- No console pesquisar pelo serviço EC2 
+- Entrar em "Security Groups" no menu lateral esquerdo.
+- Selecionar o grupo de segurança da instância EC2 criada anteriormente.
+- Clicar em "Actions" -> "Edit inbound roules".
+- Configurar desse jeito:
+    Type | Protocol | Port range | Source | Description
+    ---|---|---|---|---
+    SSH | TCP | 22 | 0.0.0.0/0 | SSH
+    TCP personalizado | TCP | 80 | 0.0.0.0/0 | HTTP
+    TCP personalizado | TCP | 443 | 0.0.0.0/0 | HTTPS
+    TCP personalizado | TCP | 111 | 0.0.0.0/0 | RPC
+    UDP personalizado | UDP | 111 | 0.0.0.0/0 | RPC
+    TCP personalizado | TCP | 2049 | 0.0.0.0/0 | NFS
+    UDP personalizado | UDP | 2049 | 0.0.0.0/0 | NFS
