@@ -15,6 +15,7 @@
     - 80/TCP (HTTP)
     - 443/TCP (HTTPS)
 
+
 ### Configurações Linux:
 
 - Configurar o NFS entregue;
@@ -58,6 +59,7 @@
 - Selecionar o ip alocado e clicar em "Actions" -> "Associate Elastic IP address".
 - Selecionar a instância EC2 criada anteriormente e clicar em "Associate".
 
+
 ### Configurar gateway de internet.
 
 - Iniciar a página da AWS
@@ -67,6 +69,7 @@
 - Definir um nome para o gateway e clicar em "Create internet gateway".
 - Selecionar o gateway criado e clicar em "Actions" -> "Attach to VPC".
 - Selecionar a VPC da instância EC2 criada anteriormente e clicar em "Attach".
+
 
 ### Configurar rota de internet.
 
@@ -81,8 +84,8 @@
     - Target: Selecionar o gateway de internet criado anteriormente
 - Clicar em "Save changes".
 
-### Configurar regras de segurança.
 
+### Configurar regras de segurança.
 
 - Iniciar a página da AWS
 - No console pesquisar pelo serviço EC2 
@@ -101,7 +104,7 @@
     UDP personalizado | UDP | 2049 | 0.0.0.0/0 | NFS
     
     
-    -----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
     
     
 ### Configuração do NFS entregue.
@@ -121,3 +124,15 @@
     ```
 - Salvar o arquivo `/etc/fstab`.
 - Criar um novo diretório para o usuário alexlopes usando o comando `sudo mkdir /mnt/nfs/pedromenna`.
+
+
+-----------------------------------------------------------------------------
+
+
+### Configuração do Apache.
+
+- Rodar o comando `sudo yum update -y` para atualizar o sistema.
+- Rodar o comando `sudo yum install httpd -y` para instalar o apache.
+- Rodar o comando `sudo systemctl start httpd` para iniciar o apache.
+- Rodar o comando `sudo systemctl enable httpd` para habilitar o apache para iniciar automaticamente.
+- Rodar o comando `sudo systemctl status httpd` para verificar o status do apache.
