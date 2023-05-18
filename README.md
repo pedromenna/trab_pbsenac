@@ -99,3 +99,25 @@
     UDP personalizado | UDP | 111 | 0.0.0.0/0 | RPC
     TCP personalizado | TCP | 2049 | 0.0.0.0/0 | NFS
     UDP personalizado | UDP | 2049 | 0.0.0.0/0 | NFS
+    
+    
+    -----------------------------------------------------------------------------
+    
+    
+### Configuração do NFS entregue.
+
+- Criar um diretório para o NFS com o comando `sudo mkdir /mnt/nfs`.
+- No console pesquisar pelo serviço EFS
+- Crie um EFS
+- Clique no EFS criado e siga para a parte de "Network"
+- Altere todos os Security Groups para o mesmo usado na sua instância indo em "Manage" e alterando nessa área
+- Volte e clique em "Attach" e copie o comando que será usado para montar o nfs (comando + dns)  
+- Montar o NFS no diretório usando o comando `sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport dns_do_nfs:/ /mnt/nfs`.
+- Verificar se o NFS foi montado utilizando o comando `df -h`.
+- Configurar o NFS para montar automaticamente no boot usando o comando `sudo nano /etc/fstab`.
+- Edite a linha para ficar da seguinte maneira no arquivo `/etc/fstab`:
+    ```
+    UUID= dns_do_nfs:/ /mnt/nfs     /           nfs    defaults,noatime  0   0
+    ```
+- Salvar o arquivo `/etc/fstab`.
+- Criar um novo diretório para o usuário alexlopes usando o comando `sudo mkdir /mnt/nfs/pedromenna`.
