@@ -106,6 +106,7 @@
     
 -----------------------------------------------------------------------------
     
+## Configuração da parte de Linux
     
 ### Configuração do NFS entregue.
 
@@ -126,9 +127,6 @@
 - Criar um novo diretório para o usuário alexlopes usando o comando `sudo mkdir /mnt/nfs/pedromenna`.
 
 
------------------------------------------------------------------------------
-
-
 ### Configuração do Apache.
 
 - Rodar o comando `sudo yum update -y` para atualizar o sistema.
@@ -136,3 +134,34 @@
 - Rodar o comando `sudo systemctl start httpd` para iniciar o apache.
 - Rodar o comando `sudo systemctl enable httpd` para habilitar o apache para iniciar automaticamente.
 - Rodar o comando `sudo systemctl status httpd` para verificar o status do apache.
+- rodar o comando `sudo systemctl stop httpd`para parar o apache.
+
+
+## Criando o Script
+
+- Rodar o comando `sudo -i` para executar os como usuario root
+- Criar o arquivo do script com `nano script.sh`
+- Adicionar essas linhas de comando:
+    ```bash
+    #!/bin/bash
+  
+    data=$(date +%d/%m/%Y)
+    hora=$(date +%H:%M:%S)
+    status=$(systemctl is-active httpd)
+   
+    if [ $status == "active" ]; then
+        aviso="O apache está online"
+        echo "$data $hora - $aviso" >> /mnt/nfs/pedromenna/online.txt
+    else
+        aviso="O apache está offline"
+        echo "$data $hora - $aviso" >> /mnt/nfs/pedromenna/offline.txt
+    fi
+    ```
+    - "Ctrl + O" para salvar
+    - "Ctrl + X" para sair do arquivo
+    - Alterar as permissões do arquivo com o comando `chmod +x script.sh` (permissão de execução)
+    - Rodar o comando `./script.sh` para testat o script
+    - Rodar o comando `ls /mnt/nfs/pedromenna` para conferir no diretória se o arquivo foi criado 
+    - Rodar o comando `cat /mnt/nfs/pedromenna/online.txt`(ou /offline.txt) para ler oque foi impresso no arquivo
+
+
