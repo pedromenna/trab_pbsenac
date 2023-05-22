@@ -165,3 +165,13 @@
     - Rodar o comando `cat /mnt/nfs/pedromenna/online.txt`(ou /offline.txt) para ler oque foi impresso no arquivo
 
 
+## Automatização do Script
+- Rodar o comando `crontab -e`
+- No arquivo aberto digite a seguinte linha de codigo
+    ```
+    */5 * * * * /home/ec2-user/script.sh
+    ```
+    - Ele irá automatizar a execução do script.sh a cada 5 minutos
+    - Salve o arquivo
+    - Rodar o comando `crontab -l`para ver se o arquivo foi configurado corretamente
+ 
