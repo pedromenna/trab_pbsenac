@@ -123,7 +123,7 @@
     UUID= dns_do_nfs:/ /mnt/nfs     /           nfs    defaults,noatime  0   0
     ```
 - Salvar o arquivo `/etc/fstab`.
-- Criar um novo diretório para o usuário alexlopes usando o comando `sudo mkdir /mnt/nfs/pedromenna`.
+- Criar um novo diretório para o usuário pedro menna usando o comando `sudo mkdir /mnt/nfs/pedromenna`.
 
 
 -----------------------------------------------------------------------------
